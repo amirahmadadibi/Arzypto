@@ -2,9 +2,9 @@ package projects.com.amirahmadadibi.arzypto;
 
 public class Coin {
     private String name;
-    private Long price;
+    private Double price;
 
-    public Coin(String name, Long price) {
+    public Coin(String name, Double price) {
         this.name = name;
         this.price = price;
     }
@@ -17,11 +17,11 @@ public class Coin {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }
