@@ -2,6 +2,9 @@ package projects.com.amirahmadadibi.arzypto;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -18,12 +21,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+import projects.com.amirahmadadibi.arzypto.adapters.MyAdapter;
 
 public class MainActivity extends AppCompatActivity {
     OkHttpClient okHttpClient;
-    public static final String BASE_URL = "wss://ws.coincap.io/prices?assets=Bitcoin,ripple,ethereum,tether,bitcoin-cash,eos,stellar,litecoin,tron,monero,cardano,dogecoin";
+    public static final String BASE_URL = "wss://ws.coincap.io/prices?assets=bitcoin,ripple,ethereum,tether,bitcoin-cash,eos,stellar,litecoin,tron,monero,cardano,dogecoin";
     Queue<String> stringQueue = new LinkedList<>();
     List<Coin> coinList = new LinkedList<>();
+    RecyclerView rvMain;
+    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
         //CoinList Initialization
         initializeCoins();
+        rvMain = findViewById(R.id.rv_main);
+
+
+        myAdapter = new MyAdapter(coinList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rvMain.setAdapter(myAdapter);
+        rvMain.setLayoutManager(layoutManager);
         okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(BASE_URL).build();
 
@@ -57,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeCoins() {
         String[] coins = {
-                "Bitcoin",
+                "bitcoin",
                 "ripple",
                 "ethereum",
                 "tether",
@@ -72,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 "dogecoin"
         };
         for (int i = 0; i < coins.length; i++) {
-            Coin coin = new Coin(coins[i], 2323.234d);
+            Coin coin = new Coin(coins[i], 0.0d);
             coinList.add(coin);
         }
     }
@@ -90,12 +103,18 @@ public class MainActivity extends AppCompatActivity {
                     Iterator<Coin> coinIterator = coinList.iterator();
                     while (coinIterator.hasNext()) {
                         Coin c = coinIterator.next();
-                        if( c.getName().equals(coinName)){
+                        if (c.getName().equals(coinName)) {
                             c.setPrice(Double.valueOf(coinLastprice));
                             Log.d("test", "getLastPriceFromQueue: *** Data " + c.getName() + " " + c.getPrice());
                         }
                     }
                 }
+                rvMain.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myAdapter.notifyDataSetChanged();
+                    }
+                },3000);
             }
         } catch (JSONException e) {
             Log.d("test", "Error JSONException *** --> " + e);
