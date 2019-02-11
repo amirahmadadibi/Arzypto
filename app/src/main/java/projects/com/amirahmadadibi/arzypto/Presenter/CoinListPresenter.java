@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
+import projects.com.amirahmadadibi.arzypto.Network.OkHttpGetCall;
+import projects.com.amirahmadadibi.arzypto.Network.OkHttpGetRequestBuilder;
 import projects.com.amirahmadadibi.arzypto.Network.OkHttpSocketClient;
 import projects.com.amirahmadadibi.arzypto.R;
 import projects.com.amirahmadadibi.arzypto.View.CoinListActivity;
@@ -20,14 +23,33 @@ public class CoinListPresenter {
     public static final String TAG = "coinlistpresenter";
     CoinListActivity coinListActivity;
     OkHttpSocketClient okHttpSocketClient;
+    OkHttpGetCall okHttpGetCall;
     public Queue<String> stringQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
 
     public CoinListPresenter(CoinListActivity coinListActivity) {
         this.coinListActivity = coinListActivity;
         this.okHttpSocketClient = new OkHttpSocketClient();
+        initializeDollerPrice();
         initializeCoins();
         runWebSocket();
+    }
+
+    private void initializeDollerPrice() {
+        new OkHttpGetRequestBuilder()
+                .setmUrl("https://currency.arzypto.com/price")
+                .createGetRequest()
+                .sendGerRequest(new OkHttpGetCall.responseImp() {
+                    @Override
+                    public void onSuccessFulCall(String response) {
+                        Log.d("zzzzzz", "onSuccessFulCall: " + response);
+                    }
+
+                    @Override
+                    public void onFailedCall(IOException e) {
+                        Log.d("zzzzzz", "onFailedCall: " + e);
+                    }
+                });
     }
 
     public void runWebSocket() {

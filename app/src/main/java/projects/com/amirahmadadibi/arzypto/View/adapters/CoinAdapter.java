@@ -50,9 +50,11 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         }
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
             viewHolder.coinPrice.setText("...");
+            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
         } else {
             viewHolder.coinPrice.setText("$ " + String.valueOf(coins.get(i).getPrice()));
+            viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
         }
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
 
