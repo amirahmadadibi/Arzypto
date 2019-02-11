@@ -2,6 +2,8 @@ package projects.com.amirahmadadibi.arzypto.Network;
 
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -13,11 +15,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OkHttpGetCall {
+public class OkhttpPostCall {
     String mUrl;
     private Call call;
 
-    public OkHttpGetCall(String url) {
+    public OkhttpPostCall(String url) {
         this.mUrl = url;
         OkHttpClient client = new OkHttpClient();
 
@@ -43,7 +45,11 @@ public class OkHttpGetCall {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                responseImp.onSuccessFulCall(response.body().string());
+                try {
+                    responseImp.onSuccessFulCall(response.body().string());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.d("test", "onResponse: " + response);
             }
         });
@@ -51,7 +57,7 @@ public class OkHttpGetCall {
 
 
     public interface responseImp {
-        void onSuccessFulCall(String response);
+        void onSuccessFulCall(String response) throws JSONException;
         void onFailedCall(IOException e);
     }
 }

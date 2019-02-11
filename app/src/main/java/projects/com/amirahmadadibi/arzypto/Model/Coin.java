@@ -5,16 +5,18 @@ public class Coin {
     private String coinSymbol;
     private String farsiName;
     private Double price;
+    private Double priceInToman;
     private int coinResourceFileId;
     private boolean priceRaiseFlat;
 
-    public Coin(String name, Double price, boolean priceRaiseFlat,String coinSymbol,String farsiName,int coinResourceFileId) {
+    public Coin(String name, Double price, boolean priceRaiseFlat, String coinSymbol, String farsiName, int coinResourceFileId, Double priceInToman) {
         this.name = name;
         this.price = price;
         this.priceRaiseFlat = priceRaiseFlat;
         this.coinSymbol = coinSymbol;
         this.farsiName = farsiName;
         this.coinResourceFileId = coinResourceFileId;
+        this.priceInToman = priceInToman;
     }
 
     public String getName() {
@@ -63,5 +65,13 @@ public class Coin {
 
     public void setCoinResourceFileId(int coinResourceFileId) {
         this.coinResourceFileId = coinResourceFileId;
+    }
+
+    public Double getPriceInToman() {
+        return priceInToman;
+    }
+
+    public void setPriceInToman(Double priceInToman) {
+        this.priceInToman = priceInToman;
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
@@ -53,7 +52,8 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
         } else {
-            viewHolder.coinPrice.setText("$ " + String.valueOf(coins.get(i).getPrice()));
+            viewHolder.coinPrice.setText("$ " + String.format("%.2f",coins.get(i).getPrice()));
+            viewHolder.coinPriceInToman.setText(String.format("%.2f",coins.get(i).getPriceInToman()) + " تومان " );
             viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
         }
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
@@ -69,6 +69,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         TextView coinName;
         TextView coinPrice;
         TextView coinSymbol;
+        TextView coinPriceInToman;
         ImageView ivCoinThumbnail;
         ImageView ivCoinPriceStatus;
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +77,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             coinName = itemView.findViewById(R.id.txt_coin_name);
             coinPrice = itemView.findViewById(R.id.txt_coin_price);
             coinSymbol = itemView.findViewById(R.id.tv_coin_symbol);
+            coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
             ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
         }

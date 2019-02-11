@@ -13,8 +13,8 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
-import projects.com.amirahmadadibi.arzypto.Network.OkHttpGetCall;
-import projects.com.amirahmadadibi.arzypto.Network.OkHttpGetRequestBuilder;
+import projects.com.amirahmadadibi.arzypto.Network.OkhttpPostCall;
+import projects.com.amirahmadadibi.arzypto.Network.OkhttpRequestBuilder;
 import projects.com.amirahmadadibi.arzypto.Network.OkHttpSocketClient;
 import projects.com.amirahmadadibi.arzypto.R;
 import projects.com.amirahmadadibi.arzypto.View.CoinListActivity;
@@ -23,9 +23,10 @@ public class CoinListPresenter {
     public static final String TAG = "coinlistpresenter";
     CoinListActivity coinListActivity;
     OkHttpSocketClient okHttpSocketClient;
-    OkHttpGetCall okHttpGetCall;
+    OkhttpPostCall okhttpPostCall;
     public Queue<String> stringQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
+    Double dollerPrice;
 
     public CoinListPresenter(CoinListActivity coinListActivity) {
         this.coinListActivity = coinListActivity;
@@ -36,18 +37,19 @@ public class CoinListPresenter {
     }
 
     private void initializeDollerPrice() {
-        new OkHttpGetRequestBuilder()
+        new OkhttpRequestBuilder()
                 .setmUrl("https://currency.arzypto.com/price")
                 .createGetRequest()
-                .sendGerRequest(new OkHttpGetCall.responseImp() {
+                .sendGerRequest(new OkhttpPostCall.responseImp() {
                     @Override
-                    public void onSuccessFulCall(String response) {
-                        Log.d("zzzzzz", "onSuccessFulCall: " + response);
+                    public void onSuccessFulCall(String response) throws JSONException {
+                        JSONObject result = new JSONObject(response);
+                        dollerPrice = Double.valueOf(result.getString("sell"));
                     }
 
                     @Override
                     public void onFailedCall(IOException e) {
-                        Log.d("zzzzzz", "onFailedCall: " + e);
+                        Log.d("arzypto", "onFailedCall: " + e);
                     }
                 });
     }
@@ -136,7 +138,7 @@ public class CoinListPresenter {
                 R.drawable.doge
         };
         for (int i = 0; i < coinName.length; i++) {
-            Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i]);
+            Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i],0.0);
             coinList.add(coin);
         }
         coinListActivity.setupCoinListAdatper(coinList);
@@ -163,6 +165,7 @@ public class CoinListPresenter {
                                 c.setPriceRaiseFlat(true);
                             }
                             c.setPrice(Double.valueOf(coinLastprice));
+                            c.setPriceInToman(Double.valueOf(coinLastprice) * dollerPrice);
                             Log.d("test", "getLastPriceFromQueue: *** Data " + c.getName() + " " + c.getPrice());
                         }
                     }

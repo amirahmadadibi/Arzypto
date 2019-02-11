@@ -1,14 +1,14 @@
 package projects.com.amirahmadadibi.arzypto.Network;
 
-public class OkHttpGetRequestBuilder {
+public class OkhttpRequestBuilder {
     private String mUrl;
 
-    public OkHttpGetRequestBuilder setmUrl(String mUrl) {
+    public OkhttpRequestBuilder setmUrl(String mUrl) {
         this.mUrl = mUrl;
         return this;
     }
 
-    public OkHttpGetCall createGetRequest() {
-        return new OkHttpGetCall(mUrl);
+    public OkhttpPostCall createGetRequest() {
+        return new OkhttpPostCall(mUrl);
     }
 }
