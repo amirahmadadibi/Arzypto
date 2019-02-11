@@ -22,17 +22,17 @@
 
             <ImageView
                 android:id="@+id/iv_coin_thumnail"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/btc"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.552"
-                android:src="@drawable/btc"
-                android:scaleType="fitXY"/>
+                app:layout_constraintVertical_bias="0.552" />
 
             <TextView
                 android:id="@+id/txt_coin_name"

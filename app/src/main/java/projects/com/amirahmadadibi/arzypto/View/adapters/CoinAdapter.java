@@ -50,6 +50,8 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         }else{
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
+
+        viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
     }
 
     @Override
