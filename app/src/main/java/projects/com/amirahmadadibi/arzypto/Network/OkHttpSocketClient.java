@@ -42,6 +42,8 @@ public class OkHttpSocketClient {
         };
         okHttpClient.newWebSocket(request, webSocketListener);
         okHttpClient.dispatcher().executorService().shutdown();
+
+
     }
 
     public interface ImpSocketStatus {
