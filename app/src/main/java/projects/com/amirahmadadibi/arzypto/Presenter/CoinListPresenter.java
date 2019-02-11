@@ -13,6 +13,7 @@ import java.util.Queue;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
 import projects.com.amirahmadadibi.arzypto.Network.OkHttpSocketClient;
+import projects.com.amirahmadadibi.arzypto.R;
 import projects.com.amirahmadadibi.arzypto.View.CoinListActivity;
 
 public class CoinListPresenter {
@@ -52,7 +53,7 @@ public class CoinListPresenter {
 
 
     private void initializeCoins() {
-        String[] coins = {
+        String[] coinName = {
                 "bitcoin",
                 "ripple",
                 "ethereum",
@@ -67,8 +68,53 @@ public class CoinListPresenter {
                 "cardano",
                 "dogecoin"
         };
-        for (int i = 0; i < coins.length; i++) {
-            Coin coin = new Coin(coins[i], 0.0d,false);
+        String[] coinFarsiNames = {
+                "بیت کوین",
+                "ریپل",
+                "اتریوم",
+                "تتر",
+                "بیت کوین کش",
+                "ای او اس",
+                "استلار",
+                "لایت کوین",
+                "بیت کوین SV",
+                "ترون",
+                "مونرو",
+                "کاردانو",
+                "دوج"
+        };
+        String[] coinSymbol = {
+                "BTC",
+                "XRP",
+                "ETH",
+                "USDT",
+                "BCH",
+                "EOS",
+                "XLM",
+                "LTC",
+                "BSV",
+                "TRX",
+                "XMR",
+                "ADA",
+                "DOGE"
+        };
+        int[] coinThumbnailResources = {
+                R.drawable.btc,
+                R.drawable.xrp,
+                R.drawable.eth,
+                R.drawable.usdt,
+                R.drawable.bch,
+                R.drawable.eos,
+                R.drawable.xlm,
+                R.drawable.ltc,
+                R.drawable.bsv,
+                R.drawable.trx,
+                R.drawable.xmr,
+                R.drawable.ada,
+                R.drawable.doge
+        };
+        for (int i = 0; i < coinName.length; i++) {
+            Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i]);
             coinList.add(coin);
         }
         coinListActivity.setupCoinListAdatper(coinList);
@@ -89,9 +135,9 @@ public class CoinListPresenter {
                     while (coinIterator.hasNext()) {
                         Coin c = coinIterator.next();
                         if (c.getName().equals(coinName)) {
-                            if(c.getPrice() > Double.valueOf(coinLastprice)){
+                            if (c.getPrice() > Double.valueOf(coinLastprice)) {
                                 c.setPriceRaiseFlat(false);
-                            }else{
+                            } else {
                                 c.setPriceRaiseFlat(true);
                             }
                             c.setPrice(Double.valueOf(coinLastprice));

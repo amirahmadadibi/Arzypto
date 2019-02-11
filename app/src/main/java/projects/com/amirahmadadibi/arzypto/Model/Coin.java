@@ -2,12 +2,19 @@ package projects.com.amirahmadadibi.arzypto.Model;
 
 public class Coin {
     private String name;
+    private String coinSymbol;
+    private String farsiName;
     private Double price;
+    private int coinResourceFileId;
     private boolean priceRaiseFlat;
-    public Coin(String name, Double price, boolean priceRaiseFlat) {
+
+    public Coin(String name, Double price, boolean priceRaiseFlat,String coinSymbol,String farsiName,int coinResourceFileId) {
         this.name = name;
         this.price = price;
         this.priceRaiseFlat = priceRaiseFlat;
+        this.coinSymbol = coinSymbol;
+        this.farsiName = farsiName;
+        this.coinResourceFileId = coinResourceFileId;
     }
 
     public String getName() {
@@ -32,5 +39,29 @@ public class Coin {
 
     public void setPriceRaiseFlat(boolean priceRaiseFlat) {
         this.priceRaiseFlat = priceRaiseFlat;
+    }
+
+    public String getCoinSymbol() {
+        return coinSymbol;
+    }
+
+    public void setCoinSymbol(String coinSymbol) {
+        this.coinSymbol = coinSymbol;
+    }
+
+    public String getFarsiName() {
+        return farsiName;
+    }
+
+    public void setFarsiName(String farsiName) {
+        this.farsiName = farsiName;
+    }
+
+    public int getCoinResourceFileId() {
+        return coinResourceFileId;
+    }
+
+    public void setCoinResourceFileId(int coinResourceFileId) {
+        this.coinResourceFileId = coinResourceFileId;
     }
 }

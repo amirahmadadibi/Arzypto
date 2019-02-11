@@ -6,7 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +38,17 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.coinName.setText(coins.get(i).getName());
+        viewHolder.coinName.setText(coins.get(i).getFarsiName());
+        viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
             viewHolder.coinPrice.setText("انتظار دریافت آخرین قیمت ...");
         } else {
             viewHolder.coinPrice.setText(String.valueOf(coins.get(i).getPrice()));
         }
         if (coins.get(i).isPriceRaiseFlat()) {
-            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }else{
-            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
     }
 
@@ -56,11 +60,14 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView coinName;
         TextView coinPrice;
-
+        TextView coinSymbol;
+        ImageView ivCoinThumbnail;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
             coinPrice = itemView.findViewById(R.id.txt_coin_price);
+            coinSymbol = itemView.findViewById(R.id.tv_coin_symbol);
+            ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
         }
     }
 }

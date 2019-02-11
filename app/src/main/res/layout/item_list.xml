@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_margin="10dp">
+    android:layout_marginBottom="10dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -12,22 +12,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="6dp"
+        app:cardBackgroundColor="@color/colorPrimary">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_coin_thumnail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.552"
+                android:src="@drawable/btc"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/txt_coin_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Coin Name"
+                app:layout_constraintEnd_toStartOf="@+id/iv_coin_thumnail"
+                app:layout_constraintTop_toTopOf="@+id/iv_coin_thumnail"
+                android:textColor="@color/colorTextLight"/>
+
+            <TextView
+                android:id="@+id/tv_coin_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="CoinSymbol"
+                app:layout_constraintEnd_toEndOf="@+id/txt_coin_name"
+                app:layout_constraintTop_toBottomOf="@+id/txt_coin_name"
+                android:textColor="@color/colorGray"/>
+
             <TextView
                 android:id="@+id/txt_coin_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="$21.3565"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txt_coin_name" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>
