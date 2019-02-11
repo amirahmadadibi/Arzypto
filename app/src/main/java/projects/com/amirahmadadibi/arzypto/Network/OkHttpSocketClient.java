@@ -9,7 +9,7 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class OkHttpSocketClient {
-    public static final String SOCKET_URL = "wss://ws.coincap.io/prices?assets=bitcoin,ripple,ethereum,tether,bitcoin-cash,eos,stellar,litecoin,tron,monero,cardano,dogecoin";
+    public static final String SOCKET_URL = "wss://ws.coincap.io/prices?assets=bitcoin,ripple,ethereum,tether,bitcoin-cash,eos,stellar,litecoin,bsv,tron,monero,cardano,dogecoin";
     OkHttpClient okHttpClient;
     Request request;
 

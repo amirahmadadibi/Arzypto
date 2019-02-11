@@ -1,5 +1,6 @@
 package projects.com.amirahmadadibi.arzypto.View;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
 import projects.com.amirahmadadibi.arzypto.Presenter.CoinListPresenter;
 import projects.com.amirahmadadibi.arzypto.R;
@@ -18,6 +20,11 @@ public class CoinListActivity extends AppCompatActivity {
 
     public RecyclerView rvMain;
     public CoinAdapter coinAdapter;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

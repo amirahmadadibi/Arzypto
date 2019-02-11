@@ -40,17 +40,18 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.coinName.setText(coins.get(i).getFarsiName());
         viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());
-        if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
-            viewHolder.coinPrice.setText("انتظار دریافت آخرین قیمت ...");
-        } else {
-            viewHolder.coinPrice.setText(String.valueOf(coins.get(i).getPrice()));
-        }
+
         if (coins.get(i).isPriceRaiseFlat()) {
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }else{
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
-
+        if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
+            viewHolder.coinPrice.setText("...");
+            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
+        } else {
+            viewHolder.coinPrice.setText("$ " + String.valueOf(coins.get(i).getPrice()));
+        }
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
     }
 
