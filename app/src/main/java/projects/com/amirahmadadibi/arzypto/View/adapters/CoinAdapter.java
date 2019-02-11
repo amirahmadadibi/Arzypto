@@ -43,8 +43,10 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
         if (coins.get(i).isPriceRaiseFlat()) {
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGreen));
+            viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_up);
         }else{
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
+            viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_down);
         }
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
             viewHolder.coinPrice.setText("...");
@@ -53,6 +55,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.coinPrice.setText("$ " + String.valueOf(coins.get(i).getPrice()));
         }
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
+
     }
 
     @Override
@@ -65,12 +68,14 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         TextView coinPrice;
         TextView coinSymbol;
         ImageView ivCoinThumbnail;
+        ImageView ivCoinPriceStatus;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
             coinPrice = itemView.findViewById(R.id.txt_coin_price);
             coinSymbol = itemView.findViewById(R.id.tv_coin_symbol);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
+            ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
         }
     }
 }
