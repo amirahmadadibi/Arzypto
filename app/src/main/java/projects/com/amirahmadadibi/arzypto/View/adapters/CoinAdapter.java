@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
@@ -43,18 +44,22 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         if (coins.get(i).isPriceRaiseFlat()) {
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGreen));
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_up);
-        }else{
+        } else {
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_down);
         }
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
             viewHolder.coinPrice.setText("...");
-            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
+            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
+            viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
         } else {
-            viewHolder.coinPrice.setText("$ " + String.format("%.2f",coins.get(i).getPrice()));
-            viewHolder.coinPriceInToman.setText(String.format("%.2f",coins.get(i).getPriceInToman()) + " تومان " );
+            viewHolder.coinPrice.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            String price = String.format("%.0f", coins.get(i).getPriceInToman());
+            viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان ");
             viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
+            viewHolder.coinPriceInToman.setVisibility(View.VISIBLE);
         }
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
 
@@ -72,6 +77,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         TextView coinPriceInToman;
         ImageView ivCoinThumbnail;
         ImageView ivCoinPriceStatus;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
