@@ -57,19 +57,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/txt_coin_name"
                 android:textColor="@color/colorGray"/>
 
-            <TextView
-                android:id="@+id/txt_coin_price"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="$21.3565"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt_coin_name"
-                android:textColor="@color/colorGray"/>
+
+            <ImageView
+                android:id="@+id/iv_icon_price_status"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_coin_price"
+                app:layout_constraintStart_toEndOf="@+id/txt_coin_price"
+                app:layout_constraintTop_toTopOf="@+id/txt_coin_price" />
 
             <TextView
-                android:id="@+id/txt_coin_price_in_toman"
+                android:id="@+id/txt_coin_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -78,19 +77,18 @@
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_coin_price" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_coin_price_in_toman" />
 
-            <ImageView
-                android:id="@+id/iv_icon_price_status"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_coin_price_in_toman"
-                app:layout_constraintStart_toEndOf="@+id/txt_coin_price"
-                app:layout_constraintTop_toTopOf="@+id/txt_coin_price"
-                app:layout_constraintVertical_bias="0.75" />
+            <TextView
+                android:id="@+id/txt_coin_price_in_toman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="1.253.125"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txt_coin_name" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

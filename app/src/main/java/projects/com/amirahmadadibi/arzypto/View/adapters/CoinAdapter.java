@@ -49,7 +49,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_down);
         }
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
-            viewHolder.coinPrice.setText("...");
+            viewHolder.coinPrice.setText("Receiving data...");
             viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
             viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
