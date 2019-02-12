@@ -57,7 +57,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.coinPrice.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
             DecimalFormat formatter = new DecimalFormat("#,###,###");
             String price = String.format("%.0f", coins.get(i).getPriceInToman());
-            viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان ");
+            viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
             viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
             viewHolder.coinPriceInToman.setVisibility(View.VISIBLE);
         }

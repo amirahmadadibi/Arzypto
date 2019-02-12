@@ -62,7 +62,7 @@
                 android:id="@+id/iv_icon_price_status"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_coin_price"
                 app:layout_constraintStart_toEndOf="@+id/txt_coin_price"
                 app:layout_constraintTop_toTopOf="@+id/txt_coin_price" />
@@ -85,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="1.253.125"
-                android:textColor="@color/colorGray"
-                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txt_coin_name" />
         </android.support.constraint.ConstraintLayout>

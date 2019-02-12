@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -47,13 +48,14 @@ public class CoinListActivity extends AppCompatActivity {
 
 
     public void notifyOnMessageReceviedData() {
-
-        Handler handler  = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
+        Runnable runnable  = new Runnable() {
             @Override
             public void run() {
                 coinAdapter.notifyDataSetChanged();
+                Toast.makeText(CoinListActivity.this, "notify data set change", Toast.LENGTH_SHORT).show();
             }
-        },3000);
+        };
+        Handler handler  = new Handler();
+        handler.postDelayed(runnable,100);
     }
 }

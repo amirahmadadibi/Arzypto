@@ -1,5 +1,6 @@
 package projects.com.amirahmadadibi.arzypto.Presenter;
 
+import android.os.Handler;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -138,7 +139,7 @@ public class CoinListPresenter {
                 R.drawable.doge
         };
         for (int i = 0; i < coinName.length; i++) {
-            Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i],0.0);
+            Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i], 0.0);
             coinList.add(coin);
         }
         coinListActivity.setupCoinListAdatper(coinList);
