@@ -86,7 +86,7 @@ public class CoinListPresenter {
                 "eos",
                 "stellar",
                 "litecoin",
-                "bsv",
+                "bitcoin-sv",
                 "tron",
                 "monero",
                 "cardano",
