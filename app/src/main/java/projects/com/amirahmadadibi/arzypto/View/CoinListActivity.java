@@ -31,10 +31,8 @@ public class CoinListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         CoinListPresenter coinListPresenter = new CoinListPresenter(this);
         coinListPresenter.runWebSocket();
-
         rvMain = findViewById(R.id.rv_main);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMain.setAdapter(coinAdapter);
@@ -43,19 +41,16 @@ public class CoinListActivity extends AppCompatActivity {
     }
 
     public void setupCoinListAdatper(List<Coin> coinList) {
-        coinAdapter = new CoinAdapter(coinList,this);
+        coinAdapter = new CoinAdapter(coinList, this);
     }
 
 
     public void notifyOnMessageReceviedData() {
-        Runnable runnable  = new Runnable() {
+        rvMain.postDelayed(new Runnable() {
             @Override
             public void run() {
                 coinAdapter.notifyDataSetChanged();
-                Toast.makeText(CoinListActivity.this, "notify data set change", Toast.LENGTH_SHORT).show();
             }
-        };
-        Handler handler  = new Handler();
-        handler.postDelayed(runnable,100);
+        }, 4000);
     }
 }

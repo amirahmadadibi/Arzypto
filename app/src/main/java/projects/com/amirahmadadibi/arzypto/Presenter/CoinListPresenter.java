@@ -34,7 +34,6 @@ public class CoinListPresenter {
         this.okHttpSocketClient = new OkHttpSocketClient();
         initializeDollerPrice();
         initializeCoins();
-        runWebSocket();
     }
 
     private void initializeDollerPrice() {
