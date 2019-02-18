@@ -70,6 +70,7 @@ public class CoinListPresenter {
             public void onMessage(String textResponse) {
                 stringQueue.add(textResponse);
                 Log.d(TAG, "onMessage: " + stringQueue.size());
+                Log.d(TAG, "onMessage: " + textResponse);
                 if (stringQueue.size() >= queueSize) {
                     getLatesPriceFromQueue();
                 }
