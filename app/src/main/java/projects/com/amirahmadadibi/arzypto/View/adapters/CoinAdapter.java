@@ -85,7 +85,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             String price = String.format("%.0f", coins.get(i).getPriceInToman());
             viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
             YoYo.with(Techniques.FadeIn)
-                    .duration(500)
+                    .duration(700)
                     .repeat(1)
                     .playOn(viewHolder.coinPriceInToman);
             viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
