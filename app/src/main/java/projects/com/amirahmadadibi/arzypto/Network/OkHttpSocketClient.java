@@ -12,6 +12,7 @@ public class OkHttpSocketClient {
     public static final String SOCKET_URL = "wss://ws.coincap.io/prices?assets=bitcoin,ripple,ethereum,tether,bitcoin-cash,eos,stellar,litecoin,bitcoin-sv,tron,monero,cardano,dogecoin";
     OkHttpClient okHttpClient;
     Request request;
+    WebSocketListener webSocketListener;
 
     public OkHttpSocketClient() {
         okHttpClient = new OkHttpClient();
@@ -20,7 +21,7 @@ public class OkHttpSocketClient {
 
     public void runSocketConncetion(final ImpSocketStatus ImpSocketStatus) {
         if (request == null) return;
-        WebSocketListener webSocketListener = new WebSocketListener() {
+        webSocketListener = new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 super.onOpen(webSocket, response);
@@ -42,8 +43,6 @@ public class OkHttpSocketClient {
         };
         okHttpClient.newWebSocket(request, webSocketListener);
         okHttpClient.dispatcher().executorService().shutdown();
-
-
     }
 
     public interface ImpSocketStatus {

@@ -1,6 +1,5 @@
 package projects.com.amirahmadadibi.arzypto.Presenter;
 
-import android.os.Handler;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -28,6 +27,7 @@ public class CoinListPresenter {
     public Queue<String> stringQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
     Double dollerPrice;
+    int queueSize = 20;
 
     public CoinListPresenter(CoinListActivity coinListActivity) {
         this.coinListActivity = coinListActivity;
@@ -68,13 +68,55 @@ public class CoinListPresenter {
 
             @Override
             public void onMessage(String textResponse) {
-                Log.d(TAG, "onMessage: " + textResponse);
                 stringQueue.add(textResponse);
-                getLatesPriceFromQueue();
+                Log.d(TAG, "onMessage: " + stringQueue.size());
+                if (stringQueue.size() >= queueSize) {
+                    getLatesPriceFromQueue();
+                }
             }
         });
+
+
     }
 
+
+    public void getLatesPriceFromQueue() {
+        try {
+            //remove's and return's head element
+            JSONObject jsonResponseChangedPrices = new JSONObject(stringQueue.poll());
+            Iterator<String> nemeListsIterator = jsonResponseChangedPrices.keys();
+            while (nemeListsIterator.hasNext()) {
+                String coinName = nemeListsIterator.next();
+                String coinLastprice = jsonResponseChangedPrices.getString(coinName);
+                Iterator<Coin> coinIterator = coinList.iterator();
+                while (coinIterator.hasNext()) {
+                    Coin c = coinIterator.next();
+                    if (c.getName().equals(coinName)) {
+                        if (c.getPrice() > Double.valueOf(coinLastprice)) {
+                            c.setPriceRaiseFlat(false);
+                        } else {
+                            c.setPriceRaiseFlat(true);
+                        }
+                        c.setPrice(Double.valueOf(coinLastprice));
+                        c.setPriceInToman(Double.valueOf(coinLastprice) * dollerPrice);
+                    }
+                }
+            }
+            notifyAdapter();
+        } catch (JSONException e) {
+            Log.d("test", "Error JSONException *** --> " + e);
+            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            Log.d("test", "Error NoSuchElementException *** --> " + e);
+            e.printStackTrace();
+        }
+        //reset size for create some kind of manual offset and set queue of responses for next round
+        stringQueue.clear();
+    }
+
+    private void notifyAdapter() {
+        coinListActivity.notifyOnMessageReceviedData();
+    }
 
     private void initializeCoins() {
         String[] coinName = {
@@ -142,47 +184,6 @@ public class CoinListPresenter {
             coinList.add(coin);
         }
         coinListActivity.setupCoinListAdatper(coinList);
-    }
-
-
-    public void getLatesPriceFromQueue() {
-        Log.d("test", "getLastPriceFromQueue: ---------------------------------- *** QueueSize " + stringQueue.size());
-        try {
-            //remove's and return's head element
-            JSONObject jsonObject = new JSONObject(stringQueue.poll());
-            if (jsonObject != null) {
-                Iterator<String> stringIterator = jsonObject.keys();
-                while (stringIterator.hasNext()) {
-                    String coinName = stringIterator.next();
-                    String coinLastprice = jsonObject.getString(coinName);
-                    Iterator<Coin> coinIterator = coinList.iterator();
-                    while (coinIterator.hasNext()) {
-                        Coin c = coinIterator.next();
-                        if (c.getName().equals(coinName)) {
-                            if (c.getPrice() > Double.valueOf(coinLastprice)) {
-                                c.setPriceRaiseFlat(false);
-                            } else {
-                                c.setPriceRaiseFlat(true);
-                            }
-                            c.setPrice(Double.valueOf(coinLastprice));
-                            c.setPriceInToman(Double.valueOf(coinLastprice) * dollerPrice);
-                            Log.d("test", "getLastPriceFromQueue: *** Data " + c.getName() + " " + c.getPrice());
-                        }
-                    }
-                }
-                notifyAdapter();
-            }
-        } catch (JSONException e) {
-            Log.d("test", "Error JSONException *** --> " + e);
-            e.printStackTrace();
-        } catch (NoSuchElementException e) {
-            Log.d("test", "Error NoSuchElementException *** --> " + e);
-            e.printStackTrace();
-        }
-    }
-
-    private void notifyAdapter() {
-        coinListActivity.notifyOnMessageReceviedData();
     }
 
 }

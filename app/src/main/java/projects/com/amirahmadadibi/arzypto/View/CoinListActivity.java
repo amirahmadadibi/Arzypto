@@ -2,12 +2,11 @@ package projects.com.amirahmadadibi.arzypto.View;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class CoinListActivity extends AppCompatActivity {
 
     public RecyclerView rvMain;
     public CoinAdapter coinAdapter;
+    public Toolbar toolbar;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -37,7 +37,9 @@ public class CoinListActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMain.setAdapter(coinAdapter);
         rvMain.setLayoutManager(layoutManager);
-
+        toolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("ارزیپتو");
     }
 
     public void setupCoinListAdatper(List<Coin> coinList) {
@@ -51,6 +53,6 @@ public class CoinListActivity extends AppCompatActivity {
             public void run() {
                 coinAdapter.notifyDataSetChanged();
             }
-        }, 4000);
+        },3000);
     }
 }
