@@ -117,6 +117,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
             ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
+            }
         }
     }
-}
