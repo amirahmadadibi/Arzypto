@@ -1,6 +1,7 @@
 package projects.com.amirahmadadibi.arzypto.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,8 +32,15 @@ public class CoinListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CoinListPresenter coinListPresenter = new CoinListPresenter(this);
+
+
+        Double dollarPrice = getIntent().getDoubleExtra(SplashActiviy.EXTRA_DOLLER_PRICE,0.0);
+        CoinListPresenter coinListPresenter = new CoinListPresenter(this,dollarPrice);
         coinListPresenter.runWebSocket();
+        initViews();
+    }
+
+    private void initViews() {
         rvMain = findViewById(R.id.rv_main);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMain.setAdapter(coinAdapter);

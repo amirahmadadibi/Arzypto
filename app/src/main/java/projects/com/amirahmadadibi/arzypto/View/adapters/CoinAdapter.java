@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
         //check for situation fo price coin is going up or down
         if (coins.get(i).isPriceRaiseFlat()) {
-            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGreen));
+            viewHolder.coinPriceInDollar.setTextColor(context.getResources().getColor(R.color.colorGreen));
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_up);
             YoYo.with(Techniques.FadeInUp)
                     .duration(700)
@@ -55,9 +53,9 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             YoYo.with(Techniques.FadeInUp)
                     .duration(700)
                     .repeat(1)
-                    .playOn(viewHolder.coinPrice);
+                    .playOn(viewHolder.coinPriceInDollar);
         } else {
-            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
+            viewHolder.coinPriceInDollar.setTextColor(context.getResources().getColor(R.color.colorRed));
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_down);
             YoYo.with(Techniques.FadeInDown)
                     .duration(700)
@@ -66,21 +64,21 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             YoYo.with(Techniques.FadeInDown)
                     .duration(700)
                     .repeat(1)
-                    .playOn(viewHolder.coinPrice);
+                    .playOn(viewHolder.coinPriceInDollar);
         }
 
         //if we have not receive any data yet
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
-            viewHolder.coinPrice.setText("دریافت آخرین قیمت ...");
+            viewHolder.coinPriceInDollar.setText("دریافت آخرین قیمت ...");
             YoYo.with(Techniques.FadeIn)
                     .duration(2000)
                     .repeat(1)
-                    .playOn(viewHolder.coinPrice);
-            viewHolder.coinPrice.setTextColor(context.getResources().getColor(R.color.colorGray));
+                    .playOn(viewHolder.coinPriceInDollar);
+            viewHolder.coinPriceInDollar.setTextColor(context.getResources().getColor(R.color.colorGray));
             viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
         } else {
-            viewHolder.coinPrice.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
+            viewHolder.coinPriceInDollar.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
             DecimalFormat formatter = new DecimalFormat("#,###,###");
             String price = String.format("%.0f", coins.get(i).getPriceInToman());
             viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
@@ -103,7 +101,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView coinName;
-        TextView coinPrice;
+        TextView coinPriceInDollar;
         TextView coinSymbol;
         TextView coinPriceInToman;
         ImageView ivCoinThumbnail;
@@ -112,7 +110,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
-            coinPrice = itemView.findViewById(R.id.txt_coin_price);
+            coinPriceInDollar = itemView.findViewById(R.id.txt_coin_price);
             coinSymbol = itemView.findViewById(R.id.tv_coin_symbol);
             coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
