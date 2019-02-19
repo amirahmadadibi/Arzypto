@@ -1,6 +1,7 @@
 package projects.com.amirahmadadibi.arzypto.View.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -122,6 +123,8 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
             ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
-            }
+            Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/DHannaThin.ttf");
+            coinPriceInDollar.setTypeface(typeFace);
         }
     }
+}

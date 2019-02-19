@@ -39,15 +39,6 @@ public class SplashActiviy extends AppCompatActivity {
         setContentView(R.layout.activity_splash_activiy);
         ImageView logo = findViewById(R.id.iv_logo_splash);
         TextView title = findViewById(R.id.txt_splash_title);
-        YoYo.with(Techniques.FadeIn)
-                .duration(1000)
-                .repeat(1)
-                .playOn(logo);
-        YoYo.with(Techniques.FadeIn)
-                .duration(1000)
-                .repeat(1)
-                .playOn(title);
-
         SplashPresenter splashPresenter = new SplashPresenter(SplashActiviy.this);
         splashPresenter.initializeDollerPrice(new SplashPresenter.ImpReceive() {
             @Override
@@ -58,10 +49,9 @@ public class SplashActiviy extends AppCompatActivity {
     }
 
     public void startApplication(final double dollarPrice) {
-
-                Intent intent = new Intent(SplashActiviy.this, CoinListActivity.class);
-                intent.putExtra(EXTRA_DOLLER_PRICE, dollarPrice);
-                startActivity(intent);
+        Intent intent = new Intent(SplashActiviy.this, CoinListActivity.class);
+        intent.putExtra(EXTRA_DOLLER_PRICE, dollarPrice);
+        startActivity(intent);
     }
 
 
