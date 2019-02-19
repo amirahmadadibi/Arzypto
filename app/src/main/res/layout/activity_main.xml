@@ -17,7 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title=""
-        app:titleTextColor="@color/colorTextLight"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@color/colorTextLight">
+        <TextView
+            android:id="@+id/tv_app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="ارزیپتو"
+            android:textColor="#ffffff"
+            />
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_main"

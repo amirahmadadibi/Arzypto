@@ -1,15 +1,14 @@
 package projects.com.amirahmadadibi.arzypto.View;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Handler;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,11 +23,15 @@ public class CoinListActivity extends AppCompatActivity {
     public RecyclerView rvMain;
     public CoinAdapter coinAdapter;
     public Toolbar toolbar;
+    Double dollarPrice;
+    //some kind of hidden fether for showing dollar price
+    public int showMeDollerPriceCounter = 3;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,8 @@ public class CoinListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Double dollarPrice = getIntent().getDoubleExtra(SplashActiviy.EXTRA_DOLLER_PRICE,0.0);
-        CoinListPresenter coinListPresenter = new CoinListPresenter(this,dollarPrice);
+        dollarPrice = getIntent().getDoubleExtra(SplashActiviy.EXTRA_DOLLER_PRICE, 0.0);
+        CoinListPresenter coinListPresenter = new CoinListPresenter(this, dollarPrice);
         coinListPresenter.runWebSocket();
         initViews();
     }
@@ -49,13 +52,31 @@ public class CoinListActivity extends AppCompatActivity {
         rvMain.setLayoutManager(layoutManager);
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("ارزیپتو");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView textView  = findViewById(R.id.tv_app_title);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryToShowDollarPrice();
+            }
+        });
     }
 
     public void setupCoinListAdatper(List<Coin> coinList) {
         coinAdapter = new CoinAdapter(coinList, this);
     }
 
+    public void tryToShowDollarPrice() {
+        showMeDollerPriceCounter--;
+        if (showMeDollerPriceCounter == 0) {
+            Toast.makeText(this, "قیمت امروز: " + dollarPrice, Toast.LENGTH_SHORT).show();
+            showMeDollerPriceCounter = 3;
+        }
+//        else {
+//            Toast.makeText(this, showMeDollerPriceCounter + " بار دیگه امتحان کن!!!", Toast.LENGTH_SHORT).show();
+//        }
+    }
 
     public void notifyOnMessageReceviedData() {
         rvMain.postDelayed(new Runnable() {
@@ -63,6 +84,6 @@ public class CoinListActivity extends AppCompatActivity {
             public void run() {
                 coinAdapter.notifyDataSetChanged();
             }
-        },3000);
+        }, 3000);
     }
 }
