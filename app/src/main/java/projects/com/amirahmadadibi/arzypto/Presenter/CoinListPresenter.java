@@ -26,8 +26,10 @@ public class CoinListPresenter {
     public Queue<String> stringQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
     double dollerPrice;
+    //fill queue to this size and use data and then clearing it again - like manual buffer
     int queueSize = 20;
-
+    //response to these many of onMessage quickly
+    int loadTurboBost = 3;
     public CoinListPresenter(CoinListActivity coinListActivity,double dollerPrice) {
         this.coinListActivity = coinListActivity;
         this.okHttpSocketClient = new OkHttpSocketClient();
@@ -54,9 +56,20 @@ public class CoinListPresenter {
                 stringQueue.add(textResponse);
                 Log.d(TAG, "onMessage: " + stringQueue.size());
                 Log.d(TAG, "onMessage: " + textResponse);
-                if (stringQueue.size() >= queueSize) {
+                //first update right out of bad for fast loading data
+                //and then we hit zero boost load data lazy way using queue size to max and
+                //clearing it agin
+                if(loadTurboBost > 0){
                     getLatesPriceFromQueue();
+                    loadTurboBost--;
+                }else{
+                    if (stringQueue.size() >= queueSize) {
+                        getLatesPriceFromQueue();
+                        //reset size for create some kind of manual offset and set queue of responses for next round
+                        stringQueue.clear();
+                    }
                 }
+
             }
         });
 
@@ -94,8 +107,7 @@ public class CoinListPresenter {
             Log.d("test", "Error NoSuchElementException *** --> " + e);
             e.printStackTrace();
         }
-        //reset size for create some kind of manual offset and set queue of responses for next round
-        stringQueue.clear();
+
     }
 
     private void notifyAdapter() {
