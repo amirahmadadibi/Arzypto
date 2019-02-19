@@ -1,5 +1,6 @@
 package projects.com.amirahmadadibi.arzypto.Presenter;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -16,10 +17,9 @@ public class SplashPresenter {
 
     public SplashPresenter(SplashActiviy splashActiviy) {
         this.splashActiviy = splashActiviy;
-        initializeDollerPrice();
     }
 
-    private void initializeDollerPrice() {
+    public void initializeDollerPrice(final ImpReceive impReceive) {
         new OkhttpRequestBuilder()
                 .setmUrl("https://currency.arzypto.com/price")
                 .createGetRequest()
@@ -27,7 +27,7 @@ public class SplashPresenter {
                     @Override
                     public void onSuccessFulCall(String response) throws JSONException {
                         JSONObject result = new JSONObject(response);
-                        launchCoinListActivity(Double.valueOf(result.getString("sell")));
+                        impReceive.onResponse(Double.valueOf(result.getString("sell")));
                     }
 
                     @Override
@@ -37,7 +37,8 @@ public class SplashPresenter {
                 });
     }
 
-    public void launchCoinListActivity(double dollerPrice) {
-        splashActiviy.startApplication(dollerPrice);
+
+    public interface ImpReceive{
+        void onResponse(double dollarPrice);
     }
 }

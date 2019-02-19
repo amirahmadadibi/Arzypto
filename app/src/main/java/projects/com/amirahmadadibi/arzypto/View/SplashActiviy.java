@@ -3,6 +3,8 @@ package projects.com.amirahmadadibi.arzypto.View;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import projects.com.amirahmadadibi.arzypto.R;
 
 public class SplashActiviy extends AppCompatActivity {
     public static final String EXTRA_DOLLER_PRICE = "EXTRA_DOLLER_PRICE";
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -45,14 +48,20 @@ public class SplashActiviy extends AppCompatActivity {
                 .repeat(1)
                 .playOn(title);
 
-
-        SplashPresenter splashPresenter = new SplashPresenter(this);
+        SplashPresenter splashPresenter = new SplashPresenter(SplashActiviy.this);
+        splashPresenter.initializeDollerPrice(new SplashPresenter.ImpReceive() {
+            @Override
+            public void onResponse(double dollarPrice) {
+                startApplication(dollarPrice);
+            }
+        });
     }
 
-    public void startApplication(double dollarPrice) {
-        Intent intent = new Intent(SplashActiviy.this, CoinListActivity.class);
-        intent.putExtra(EXTRA_DOLLER_PRICE,dollarPrice);
-        startActivity(intent);
+    public void startApplication(final double dollarPrice) {
+
+                Intent intent = new Intent(SplashActiviy.this, CoinListActivity.class);
+                intent.putExtra(EXTRA_DOLLER_PRICE, dollarPrice);
+                startActivity(intent);
     }
 
 

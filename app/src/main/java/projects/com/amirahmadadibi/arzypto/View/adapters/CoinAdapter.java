@@ -13,6 +13,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
@@ -22,6 +23,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     List<Coin> coins;
     Context context;
+    DecimalFormat formatter = new DecimalFormat("#,###,###");
 
     public CoinAdapter(List<Coin> coins, Context context) {
         this.coins = coins;
@@ -78,8 +80,13 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
         } else {
-            viewHolder.coinPriceInDollar.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
-            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            if (coins.get(i).getCoinSymbol().equals("DOGE") || coins.get(i).getCoinSymbol().equals("TRX") || coins.get(i).getCoinSymbol().equals("ADA") || coins.get(i).getCoinSymbol().equals("XLM")) {
+                //shows until six decimal digits for some coin's and format them using dollarFormatter
+                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
+            } else {
+                //only shows until tow decimal digits
+                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
+            }
             String price = String.format("%.0f", coins.get(i).getPriceInToman());
             viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
             YoYo.with(Techniques.FadeIn)
