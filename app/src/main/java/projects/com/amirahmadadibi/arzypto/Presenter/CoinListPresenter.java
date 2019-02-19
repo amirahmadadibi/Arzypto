@@ -14,7 +14,6 @@ import java.util.Queue;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
 import projects.com.amirahmadadibi.arzypto.Network.OkhttpPostCall;
-import projects.com.amirahmadadibi.arzypto.Network.OkhttpRequestBuilder;
 import projects.com.amirahmadadibi.arzypto.Network.OkHttpSocketClient;
 import projects.com.amirahmadadibi.arzypto.R;
 import projects.com.amirahmadadibi.arzypto.View.CoinListActivity;
@@ -26,33 +25,17 @@ public class CoinListPresenter {
     OkhttpPostCall okhttpPostCall;
     public Queue<String> stringQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
-    Double dollerPrice;
+    double dollerPrice;
     int queueSize = 20;
 
-    public CoinListPresenter(CoinListActivity coinListActivity) {
+    public CoinListPresenter(CoinListActivity coinListActivity,double dollerPrice) {
         this.coinListActivity = coinListActivity;
         this.okHttpSocketClient = new OkHttpSocketClient();
-        initializeDollerPrice();
+        this.dollerPrice = dollerPrice;
         initializeCoins();
     }
 
-    private void initializeDollerPrice() {
-        new OkhttpRequestBuilder()
-                .setmUrl("https://currency.arzypto.com/price")
-                .createGetRequest()
-                .sendGerRequest(new OkhttpPostCall.responseImp() {
-                    @Override
-                    public void onSuccessFulCall(String response) throws JSONException {
-                        JSONObject result = new JSONObject(response);
-                        dollerPrice = Double.valueOf(result.getString("sell"));
-                    }
 
-                    @Override
-                    public void onFailedCall(IOException e) {
-                        Log.d("arzypto", "onFailedCall: " + e);
-                    }
-                });
-    }
 
     public void runWebSocket() {
         okHttpSocketClient.runSocketConncetion(new OkHttpSocketClient.ImpSocketStatus() {
@@ -184,6 +167,9 @@ public class CoinListPresenter {
             Coin coin = new Coin(coinName[i], 0.0d, false, coinSymbol[i], coinFarsiNames[i], coinThumbnailResources[i], 0.0);
             coinList.add(coin);
         }
+        //initialize tether coin because it's very stable and we need show 1 dollar price before any changes
+        coinList.get(3).setPrice(1.0);
+        coinList.get(3).setPriceInToman(1.0 * dollerPrice);
         coinListActivity.setupCoinListAdatper(coinList);
     }
 
