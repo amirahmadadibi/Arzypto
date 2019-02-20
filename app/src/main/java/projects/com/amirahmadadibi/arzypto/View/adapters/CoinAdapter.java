@@ -48,7 +48,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             switchFromLoadToShow(false, viewHolder);
         } else {
             switchFromLoadToShow(true,viewHolder);
-            if (coins.get(i).getPrice() < 2.00) {
+            if (coins.get(i).getPrice() < 1.00) {
                 //shows until six decimal digits for some coin's and format them using dollarFormatter
                 viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
             } else {
@@ -57,7 +57,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             }
             String price = String.format("%.0f", coins.get(i).getPriceInToman());
             viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
-
         }
 
         //check for situation fo price coin is going up or down
