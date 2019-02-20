@@ -51,7 +51,7 @@ public class CoinListActivity extends AppCompatActivity {
         rvMain.setAdapter(coinAdapter);
         rvMain.setLayoutManager(layoutManager);
         toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);mit
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         TextView textView  = findViewById(R.id.tv_app_title);
