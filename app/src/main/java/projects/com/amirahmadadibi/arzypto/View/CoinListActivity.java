@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +84,8 @@ public class CoinListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 coinAdapter.notifyDataSetChanged();
+                Log.d("test", "run: activity adapter notifyed");
             }
-        }, 3000);
+        }, 1000);
     }
 }

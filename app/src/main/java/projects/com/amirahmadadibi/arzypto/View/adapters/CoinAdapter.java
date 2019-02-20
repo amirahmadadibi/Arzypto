@@ -33,7 +33,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -49,7 +48,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             switchFromLoadToShow(false, viewHolder);
         } else {
             switchFromLoadToShow(true,viewHolder);
-            if (coins.get(i).getPrice() < 1.00) {
+            if (coins.get(i).getPrice() < 2.00) {
                 //shows until six decimal digits for some coin's and format them using dollarFormatter
                 viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
             } else {

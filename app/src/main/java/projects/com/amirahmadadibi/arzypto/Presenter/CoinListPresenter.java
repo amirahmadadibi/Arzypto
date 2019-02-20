@@ -22,20 +22,20 @@ public class CoinListPresenter {
     CoinListActivity coinListActivity;
     OkHttpSocketClient okHttpSocketClient;
     OkhttpPostCall okhttpPostCall;
-    public Queue<String> stringQueue = new LinkedList<>();
+    public Queue<String> responseQueue = new LinkedList<>();
     public List<Coin> coinList = new LinkedList<>();
     double dollerPrice;
     //fill queue to this size and use data and then clearing it again - like manual buffer
     int queueSize = 20;
     //response to these many of onMessage quickly
     int loadTurboBost = 3;
-    public CoinListPresenter(CoinListActivity coinListActivity,double dollerPrice) {
+
+    public CoinListPresenter(CoinListActivity coinListActivity, double dollerPrice) {
         this.coinListActivity = coinListActivity;
         this.okHttpSocketClient = new OkHttpSocketClient();
         this.dollerPrice = dollerPrice;
         initializeCoins();
     }
-
 
 
     public void runWebSocket() {
@@ -52,20 +52,17 @@ public class CoinListPresenter {
 
             @Override
             public void onMessage(String textResponse) {
-                stringQueue.add(textResponse);
-                Log.d(TAG, "onMessage: " + stringQueue.size());
-                Log.d(TAG, "onMessage: " + textResponse);
+                responseQueue.add(textResponse);
                 //first update right out of bad for fast loading data
-                //and then we hit zero boost load data lazy way using queue size to max and
+                //and then when we hit zero boost, we going to load data lazy way using queue size to max and
                 //clearing it agin
-                if(loadTurboBost > 0){
-                    getLatesPriceFromQueue();
+                if (loadTurboBost > 0) {
+                    getLatesPriceFromQueue(false);
                     loadTurboBost--;
-                }else{
-                    if (stringQueue.size() >= queueSize) {
-                        getLatesPriceFromQueue();
+                } else {
+                    if (responseQueue.size() >= queueSize) {
+                        getLatesPriceFromQueue(true);
                         //reset size for create some kind of manual offset and set queue of responses for next round
-                        stringQueue.clear();
                     }
                 }
 
@@ -76,10 +73,10 @@ public class CoinListPresenter {
     }
 
 
-    public void getLatesPriceFromQueue() {
+    public void getLatesPriceFromQueue(boolean restResponseQueue) {
         try {
             //remove's and return's head element
-            JSONObject jsonResponseChangedPrices = new JSONObject(stringQueue.poll());
+            JSONObject jsonResponseChangedPrices = new JSONObject(responseQueue.poll());
             Iterator<String> nemeListsIterator = jsonResponseChangedPrices.keys();
             while (nemeListsIterator.hasNext()) {
                 String coinName = nemeListsIterator.next();
@@ -99,6 +96,9 @@ public class CoinListPresenter {
                 }
             }
             notifyAdapter();
+            if (restResponseQueue) {
+                responseQueue.clear();
+            }
         } catch (JSONException e) {
             Log.d("test", "Error JSONException *** --> " + e);
             e.printStackTrace();
