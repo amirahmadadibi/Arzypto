@@ -14,7 +14,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
@@ -42,11 +41,28 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.coinName.setText(coins.get(i).getFarsiName());
-        viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());
+        viewHolder.coinName.setText(coins.get(i).getFarsiName());//تتر
+        viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());//USDT
+        viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());//coin logo
+        //if we have not receive any data yet
+        if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
+            switchFromLoadToShow(false, viewHolder);
+        } else {
+            switchFromLoadToShow(true,viewHolder);
+            if (coins.get(i).getPrice() < 1.00) {
+                //shows until six decimal digits for some coin's and format them using dollarFormatter
+                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
+            } else {
+                //only shows until tow decimal digits
+                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
+            }
+            String price = String.format("%.0f", coins.get(i).getPriceInToman());
+            viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
+
+        }
 
         //check for situation fo price coin is going up or down
-        if (coins.get(i).isPriceRaiseFlat()) {
+        if (coins.get(i).isPriceRaiseFlag()) {
             viewHolder.coinPriceInDollar.setTextColor(context.getResources().getColor(R.color.colorGreen));
             viewHolder.ivCoinPriceStatus.setImageResource(R.drawable.ic_price_up);
             YoYo.with(Techniques.FadeInUp)
@@ -69,37 +85,6 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
                     .repeat(1)
                     .playOn(viewHolder.coinPriceInDollar);
         }
-
-        //if we have not receive any data yet
-        if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
-            viewHolder.coinPriceInDollar.setText("دریافت آخرین قیمت ...");
-            YoYo.with(Techniques.FadeIn)
-                    .duration(2000)
-                    .repeat(1)
-                    .playOn(viewHolder.coinPriceInDollar);
-            viewHolder.coinPriceInDollar.setTextColor(context.getResources().getColor(R.color.colorGray));
-            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
-            viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
-        } else {
-            if (coins.get(i).getCoinSymbol().equals("DOGE") || coins.get(i).getCoinSymbol().equals("TRX") || coins.get(i).getCoinSymbol().equals("ADA") || coins.get(i).getCoinSymbol().equals("XLM")) {
-                //shows until six decimal digits for some coin's and format them using dollarFormatter
-                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
-            } else {
-                //only shows until tow decimal digits
-                viewHolder.coinPriceInDollar.setText("$ " + String.format("%.2f", coins.get(i).getPrice()));
-            }
-            String price = String.format("%.0f", coins.get(i).getPriceInToman());
-            viewHolder.coinPriceInToman.setText(String.valueOf(formatter.format(Double.valueOf(price))) + " تومان");
-            YoYo.with(Techniques.FadeIn)
-                    .duration(700)
-                    .repeat(1)
-                    .playOn(viewHolder.coinPriceInToman);
-            viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
-            viewHolder.coinPriceInToman.setVisibility(View.VISIBLE);
-        }
-
-        viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());
-
     }
 
     @Override
@@ -112,6 +97,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         TextView coinPriceInDollar;
         TextView coinSymbol;
         TextView coinPriceInToman;
+        TextView coinLoadData;
         ImageView ivCoinThumbnail;
         ImageView ivCoinPriceStatus;
 
@@ -120,11 +106,26 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             coinName = itemView.findViewById(R.id.txt_coin_name);
             coinPriceInDollar = itemView.findViewById(R.id.txt_coin_price);
             coinSymbol = itemView.findViewById(R.id.tv_coin_symbol);
+            coinLoadData = itemView.findViewById(R.id.txt_load_data);
             coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
             ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
             Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/DHannaThin.ttf");
             coinPriceInDollar.setTypeface(typeFace);
+        }
+    }
+
+    public void switchFromLoadToShow(boolean show, ViewHolder viewHolder) {
+        if (show) {
+            viewHolder.coinLoadData.setVisibility(View.INVISIBLE);
+            viewHolder.coinPriceInDollar.setVisibility(View.VISIBLE);
+            viewHolder.ivCoinPriceStatus.setVisibility(View.VISIBLE);
+            viewHolder.coinPriceInToman.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.coinLoadData.setVisibility(View.VISIBLE);
+            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
+            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
+            viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
         }
     }
 }
