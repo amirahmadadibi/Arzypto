@@ -36,6 +36,8 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'co.ronash.android:pushe-base:1.4.3'
-
+    //android char and static
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 }

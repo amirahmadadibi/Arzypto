@@ -5,6 +5,8 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -15,16 +17,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkhttpGetCall {
-    String mUrl;
     private Call call;
 
-    public OkhttpGetCall(String url) {
-        this.mUrl = url;
+    public OkhttpGetCall(Request request) {
         OkHttpClient client = new OkHttpClient();
 
-        Request request = new Request.Builder()
-                .url(mUrl)
-                .build();
+
         call = client.newCall(request);
     }
 
@@ -39,6 +37,7 @@ public class OkhttpGetCall {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     responseImp.onSuccessFulCall(response.body().string());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

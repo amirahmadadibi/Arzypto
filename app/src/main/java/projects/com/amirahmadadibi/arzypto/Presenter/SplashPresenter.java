@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.Request;
 import projects.com.amirahmadadibi.arzypto.Network.OkhttpGetCall;
 import projects.com.amirahmadadibi.arzypto.Network.OkhttpPostCall;
 import projects.com.amirahmadadibi.arzypto.Network.OkhttpRequestBuilder;
@@ -21,7 +22,10 @@ public class SplashPresenter {
     }
 
     public void initializeDollerPrice(final ImpReceive impReceive) {
-        new OkhttpGetCall("https://www.arzypto.com/coin/dollarPrice").sendGetRequest(new OkhttpGetCall.responseImp() {
+        Request request = new Request.Builder()
+                .url("https://www.arzypto.com/coin/dollarPrice")
+                .build();
+        new OkhttpGetCall(request).sendGetRequest(new OkhttpGetCall.responseImp() {
             @Override
             public void onSuccessFulCall(String response) throws JSONException {
                 Log.d("qqqq", "onSuccessFulCall: " + response);

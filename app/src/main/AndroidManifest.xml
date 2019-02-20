@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="projects.com.amirahmadadibi.arzypto">
-    <uses-sdk
-        tools:overrideLibrary="co.ronash.pushe" />
+
+    <uses-sdk tools:overrideLibrary="co.ronash.pushe" />
+
     <permission
         android:name="projects.com.amirahmadadibi.arzypto.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission
-        android:name="projects.com.amirahmadadibi.arzypto.permission.C2D_MESSAGE" />
-    <uses-permission
-        android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="projects.com.amirahmadadibi.arzypto.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -21,18 +21,19 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.SplashActiviy">
+        <activity android:name=".View.TestChart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.CoinListActivity">
+        <activity android:name=".View.SplashActiviy">
 
         </activity>
-        <!--puse boradcast receiver -->
-        <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver" >
+        <activity android:name=".View.CoinListActivity"></activity> <!-- puse boradcast receiver -->
+        <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
 
@@ -41,22 +42,24 @@
                     android:scheme="package" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="projects.com.amirahmadadibi.arzypto" />
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="co.ronash.pushe.token" android:value="PUSHE_913240827932"/>
-        <meta-data android:name="co.ronash.pushe.cr" android:value="Tm9uZQ=="/>
+        <meta-data
+            android:name="co.ronash.pushe.token"
+            android:value="PUSHE_913240827932" />
+        <meta-data
+            android:name="co.ronash.pushe.cr"
+            android:value="Tm9uZQ==" />
     </application>
 
 </manifest>
