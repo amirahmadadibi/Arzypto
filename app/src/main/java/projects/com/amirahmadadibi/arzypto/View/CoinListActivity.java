@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import co.ronash.pushe.Pushe;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class CoinListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Pushe.initialize(this,true);
 
         dollarPrice = getIntent().getDoubleExtra(SplashActiviy.EXTRA_DOLLER_PRICE, 0.0);
         CoinListPresenter coinListPresenter = new CoinListPresenter(this, dollarPrice);
@@ -51,7 +52,7 @@ public class CoinListActivity extends AppCompatActivity {
         rvMain.setAdapter(coinAdapter);
         rvMain.setLayoutManager(layoutManager);
         toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);mit
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         TextView textView  = findViewById(R.id.tv_app_title);
