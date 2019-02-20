@@ -5,7 +5,6 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,9 +89,9 @@ public class CoinListPresenter {
                     Coin c = coinIterator.next();
                     if (c.getName().equals(coinName)) {
                         if (c.getPrice() > Double.valueOf(coinLastprice)) {
-                            c.setPriceRaiseFlat(false);
+                            c.setPriceRaiseFlag(false);
                         } else {
-                            c.setPriceRaiseFlat(true);
+                            c.setPriceRaiseFlag(true);
                         }
                         c.setPrice(Double.valueOf(coinLastprice));
                         c.setPriceInToman(Double.valueOf(coinLastprice) * dollerPrice);
