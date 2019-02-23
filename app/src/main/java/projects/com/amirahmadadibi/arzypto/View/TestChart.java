@@ -42,7 +42,7 @@ public class TestChart extends AppCompatActivity {
     SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
     List<Entry> chartEntry = new ArrayList<>();
     Typeface typeFace;
-
+    ArrayList<String> days = new ArrayList<>();
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -56,6 +56,7 @@ public class TestChart extends AppCompatActivity {
         makeGetCall();
         typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/IRANYekanMobileMedium.ttf");
         lineChart.setNoDataText("در حال بارگزاری اطلاعات...");
+        lineChart.getDescription().setEnabled(false);
         lineChart.setDrawGridBackground(false);//draw recangle with solid background color
         lineChart.getXAxis().setDrawAxisLine(false);
         lineChart.setDrawBorders(false);
@@ -67,12 +68,13 @@ public class TestChart extends AppCompatActivity {
         lineChart.isScaleYEnabled();
         //make chart full width
         lineChart.setViewPortOffsets(0f, 20f, 0f, 20f);
+        //customizingXAxis();
+        //customizingYAxis();
 
     }
 
     private void setDataValuesForChart() {
-        LineDataSet dataSet = new LineDataSet(chartEntry, "Label"); // add entries to dataset
-
+        LineDataSet dataSet = new LineDataSet(chartEntry, ""); // add entries to dataset
         dataSet.setDrawValues(false);
         //chart line thickness
         dataSet.setLineWidth(2.8f);
@@ -80,7 +82,9 @@ public class TestChart extends AppCompatActivity {
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setHighlightEnabled(false);
         dataSet.setDrawFilled(true);
+        //make line smooth
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        //fill under the line with gradient look
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.chart_gradient_blue);
         dataSet.setFillDrawable(drawable);
         LineData lineData = new LineData(dataSet);
@@ -96,12 +100,13 @@ public class TestChart extends AppCompatActivity {
             @Override
             public void onSuccessFulCall(String response) throws JSONException {
                 JSONObject wholePriceResponse = new JSONObject(response);
-                JSONArray jsonPricesArray  = wholePriceResponse.getJSONArray("data");
+                JSONArray jsonPricesArray = wholePriceResponse.getJSONArray("data");
                 int size = jsonPricesArray.length() - 7;
                 for (int i = size; i < jsonPricesArray.length(); i++) {
                     JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    Log.d("jsonLastSeven", "onSuccessFulCall: "  + jsonPriceForSingleDay.toString());
+                    Log.d("jsonLastSeven", "onSuccessFulCall: " + jsonPriceForSingleDay.toString());
                     chartEntry.add(new Entry(i, Float.valueOf(jsonPriceForSingleDay.getString("priceUsd"))));
+                    days.add(jsonPriceForSingleDay.getString("date"));
                     //
                 }
                 runOnUiThread(new Runnable() {
@@ -141,7 +146,7 @@ public class TestChart extends AppCompatActivity {
 
     }
 
-    private void customizingYAxis(){
+    private void customizingYAxis() {
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         yAxisLeft.setTextColor(Color.WHITE);
