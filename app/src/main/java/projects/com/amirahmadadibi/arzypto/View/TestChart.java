@@ -57,19 +57,20 @@ public class TestChart extends AppCompatActivity {
         typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/IRANYekanMobileMedium.ttf");
         lineChart.setNoDataText("در حال بارگزاری اطلاعات...");
         lineChart.getDescription().setEnabled(false);
+        lineChart.getLegend().setEnabled(false);   // Hide the legend
         lineChart.setDrawGridBackground(false);//draw recangle with solid background color
         lineChart.getXAxis().setDrawAxisLine(false);
         lineChart.setDrawBorders(false);
-        lineChart.getAxisLeft().setDrawGridLines(false);
-        lineChart.getXAxis().setDrawGridLines(false);
-        lineChart.getAxisRight().setEnabled(false);
-        lineChart.getAxisLeft().setEnabled(false);
-        lineChart.isScaleXEnabled();
-        lineChart.isScaleYEnabled();
+//        lineChart.getAxisLeft().setDrawGridLines(false);
+//        lineChart.getXAxis().setDrawGridLines(false);
+//        lineChart.getAxisRight().setEnabled(false);
+//        lineChart.getAxisLeft().setEnabled(false);
+//        lineChart.isScaleXEnabled();
+//        lineChart.isScaleYEnabled();
         //make chart full width
         lineChart.setViewPortOffsets(0f, 20f, 0f, 20f);
-        //customizingXAxis();
-        //customizingYAxis();
+        customizingXAxis();
+        customizingYAxis();
 
     }
 
@@ -93,21 +94,19 @@ public class TestChart extends AppCompatActivity {
 
     public void makeGetCall() {
         Request request = new Request.Builder()
-                .url("https://api.coincap.io/v2/assets/ripple/history?interval=d1")
+                .url("https://api.coincap.io/v2/assets/bitcoin/history?interval=d1")
                 .header("X-CMC_PRO_API_KEY", "5d10358e-e718-4f8b-a973-dab7d737e035")
                 .build();
         new OkhttpGetCall(request).sendGetRequest(new OkhttpGetCall.responseImp() {
             @Override
             public void onSuccessFulCall(String response) throws JSONException {
-                JSONObject wholePriceResponse = new JSONObject(response);
-                JSONArray jsonPricesArray = wholePriceResponse.getJSONArray("data");
+                JSONArray jsonPricesArray = new JSONObject(response).getJSONArray("data");
                 int size = jsonPricesArray.length() - 7;
                 for (int i = size; i < jsonPricesArray.length(); i++) {
                     JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    Log.d("jsonLastSeven", "onSuccessFulCall: " + jsonPriceForSingleDay.toString());
+                    Log.d("Test", "onSuccessFulCall: coin info " + jsonPriceForSingleDay.toString());
                     chartEntry.add(new Entry(i, Float.valueOf(jsonPriceForSingleDay.getString("priceUsd"))));
                     days.add(jsonPriceForSingleDay.getString("date"));
-                    //
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -130,20 +129,13 @@ public class TestChart extends AppCompatActivity {
         XAxis xAxis = lineChart.getXAxis();
         //position of numbers
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setTextColor(Color.WHITE);
         //size of x axis numbers
         xAxis.setTextSize(10f);
-        //color of numbers
-        xAxis.setTextColor(getResources().getColor(R.color.colorSolidGray));
         //horizontal line along side of number of axis
         xAxis.setDrawAxisLine(false);
         //vertical line for each number value in x row
-        xAxis.setDrawGridLines(true);
-        //color of vertical line on each number value in x value
-        xAxis.setGridColor(getResources().getColor(R.color.colorGridColorDark));
-        //x grid for each x number thickness
-        xAxis.setGridLineWidth(2f);
-        //make chart full width
-
+        xAxis.setDrawGridLines(false);
     }
 
     private void customizingYAxis() {
@@ -151,9 +143,8 @@ public class TestChart extends AppCompatActivity {
         yAxisLeft.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         yAxisLeft.setTextColor(Color.WHITE);
         yAxisLeft.setTextSize(12f);
-        yAxisLeft.setGridLineWidth(2f);
-        yAxisLeft.setGridColor(getResources().getColor(R.color.colorGridColorDark));
         yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setDrawGridLines(false);
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setGridColor(getResources().getColor(R.color.colorGridColorDark));
         yAxisRight.setDrawAxisLine(true);
