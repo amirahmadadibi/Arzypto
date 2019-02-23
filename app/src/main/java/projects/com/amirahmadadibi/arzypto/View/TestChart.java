@@ -104,8 +104,9 @@ public class TestChart extends AppCompatActivity {
                 int size = jsonPricesArray.length() - 7;
                 for (int i = size; i < jsonPricesArray.length(); i++) {
                     JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    Log.d("Test", "onSuccessFulCall: coin info " + jsonPriceForSingleDay.toString());
-                    chartEntry.add(new Entry(i, Float.valueOf(jsonPriceForSingleDay.getString("priceUsd"))));
+                    Log.d("Test", "onSuc.3cessFulCall: coin info " + jsonPriceForSingleDay.toString());
+                    chartEntry.add(new Entry(Float.valueOf(jsonPriceForSingleDay.getString("time")) ,
+                            Float.valueOf(jsonPriceForSingleDay.getString("priceUsd"))));
                     days.add(jsonPriceForSingleDay.getString("date"));
                 }
                 runOnUiThread(new Runnable() {
