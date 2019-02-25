@@ -7,42 +7,35 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import okhttp3.Request;
-import projects.com.amirahmadadibi.arzypto.Network.OkhttpGetCall;
+import projects.com.amirahmadadibi.arzypto.Presenter.CoinChartPresenter;
 import projects.com.amirahmadadibi.arzypto.R;
 
-public class TestChart extends AppCompatActivity {
+public class CoinChartActivity extends AppCompatActivity {
     LineChart lineChart;
     SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
     List<Entry> chartEntry = new ArrayList<>();
     Typeface typeFace;
     ArrayList<String> days = new ArrayList<>();
+    CoinChartPresenter coinChartPresenter;
+    ProgressBar pb_downloading_data;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -52,9 +45,47 @@ public class TestChart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_chart);
+        coinChartPresenter = new CoinChartPresenter(this,CoinChartActivity.this);
+        pb_downloading_data = findViewById(R.id.pb_downloading_data);
+
         lineChart = findViewById(R.id.chart);
-        makeGetCall();
         typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/IRANYekanMobileMedium.ttf");
+        chartInit();
+
+        showDayValuesOfCoinAsStarting();
+        TextView txt_one_month = findViewById(R.id.txt_one_month);
+        txt_one_month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_Day,30);
+            }
+        });
+
+        TextView txt_one_day = findViewById(R.id.txt_one_day);
+        txt_one_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_HOUR,24);
+            }
+        });
+
+        TextView txt_one_week = findViewById(R.id.txt_one_week);
+        txt_one_week.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_Day,7);
+            }
+        });
+
+    }
+
+    private void showDayValuesOfCoinAsStarting() {
+        //select 1 day interval as default showing sduation
+        coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_HOUR,24);
+        setDataValuesForChart();
+    }
+
+    private void chartInit() {
         lineChart.setNoDataText("در حال بارگزاری اطلاعات...");
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);   // Hide the legend
@@ -71,7 +102,6 @@ public class TestChart extends AppCompatActivity {
         lineChart.setViewPortOffsets(0f, 20f, 0f, 20f);
         customizingXAxis();
         customizingYAxis();
-
     }
 
     private void setDataValuesForChart() {
@@ -82,7 +112,7 @@ public class TestChart extends AppCompatActivity {
         dataSet.setDrawCircles(false);
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setHighlightEnabled(false);
-        dataSet.setDrawFilled(true);
+        dataSet.setDrawFilled(false );
         //make line smooth
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         //fill under the line with gradient look
@@ -90,40 +120,6 @@ public class TestChart extends AppCompatActivity {
         dataSet.setFillDrawable(drawable);
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
-    }
-
-    public void makeGetCall() {
-        Request request = new Request.Builder()
-                .url("https://api.coincap.io/v2/assets/bitcoin/history?interval=d1")
-                .header("X-CMC_PRO_API_KEY", "5d10358e-e718-4f8b-a973-dab7d737e035")
-                .build();
-        new OkhttpGetCall(request).sendGetRequest(new OkhttpGetCall.responseImp() {
-            @Override
-            public void onSuccessFulCall(String response) throws JSONException {
-                JSONArray jsonPricesArray = new JSONObject(response).getJSONArray("data");
-                int size = jsonPricesArray.length() - 7;
-                for (int i = size; i < jsonPricesArray.length(); i++) {
-                    JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    Log.d("Test", "onSuc.3cessFulCall: coin info " + jsonPriceForSingleDay.toString());
-                    chartEntry.add(new Entry(Float.valueOf(jsonPriceForSingleDay.getString("time")) ,
-                            Float.valueOf(jsonPriceForSingleDay.getString("priceUsd"))));
-                    days.add(jsonPriceForSingleDay.getString("date"));
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setDataValuesForChart();
-                        lineChart.notifyDataSetChanged();
-                        lineChart.invalidate(); // refresh
-                    }
-                });
-            }
-
-            @Override
-            public void onFailedCall(IOException e) {
-
-            }
-        });
     }
 
     private void customizingXAxis() {
@@ -140,7 +136,6 @@ public class TestChart extends AppCompatActivity {
 
         xAxis.setCenterAxisLabels(true);
         xAxis.setLabelRotationAngle(90f); // rotates label so we can see it all TODO remove after tests
-        xAxis.setValueFormatter(new MyXAxisValueFormatter());
     }
 
     private void customizingYAxis() {
@@ -153,5 +148,38 @@ public class TestChart extends AppCompatActivity {
         YAxis yAxisRight = lineChart.getAxisRight();
         yAxisRight.setGridColor(getResources().getColor(R.color.colorGridColorDark));
         yAxisRight.setDrawAxisLine(true);
+    }
+
+
+
+    public void reFreshChart(){
+        setDataValuesForChart();
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate(); // refresh
+    }
+    
+    public void errorInFetchingData(){
+        Toast.makeText(this, "عدم توانایی در برقراری ارتباط ...", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onGettingNewData(List<Entry> chartEntry){
+        this.chartEntry = chartEntry;
+        reFreshChart();
+    }
+
+    public void watingForDownloading(final boolean isWating){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(isWating){
+                    pb_downloading_data.setVisibility(View.VISIBLE);
+                    lineChart.setVisibility(View.INVISIBLE);
+                }else{
+                    pb_downloading_data.setVisibility(View.INVISIBLE);
+                    lineChart.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 }
