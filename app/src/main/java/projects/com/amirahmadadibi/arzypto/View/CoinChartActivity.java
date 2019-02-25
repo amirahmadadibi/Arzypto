@@ -8,16 +8,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,7 +117,7 @@ public class CoinChartActivity extends AppCompatActivity {
         dataSet.setDrawCircles(false);
         dataSet.setDrawHorizontalHighlightIndicator(false);
         dataSet.setHighlightEnabled(false);
-        dataSet.setDrawFilled(false );
+        dataSet.setDrawFilled(true);
         //make line smooth
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         //fill under the line with gradient look
@@ -133,9 +138,9 @@ public class CoinChartActivity extends AppCompatActivity {
         xAxis.setDrawAxisLine(false);
         //vertical line for each number value in x row
         xAxis.setDrawGridLines(false);
-
         xAxis.setCenterAxisLabels(true);
         xAxis.setLabelRotationAngle(90f); // rotates label so we can see it all TODO remove after tests
+
     }
 
     private void customizingYAxis() {
@@ -177,6 +182,7 @@ public class CoinChartActivity extends AppCompatActivity {
                 }else{
                     pb_downloading_data.setVisibility(View.INVISIBLE);
                     lineChart.setVisibility(View.VISIBLE);
+                    lineChart.animateY(1000,Easing.EaseInSine);
                 }
             }
         });
