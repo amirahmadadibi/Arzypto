@@ -137,6 +137,10 @@ public class TestChart extends AppCompatActivity {
         xAxis.setDrawAxisLine(false);
         //vertical line for each number value in x row
         xAxis.setDrawGridLines(false);
+
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setLabelRotationAngle(90f); // rotates label so we can see it all TODO remove after tests
+        xAxis.setValueFormatter(new MyXAxisValueFormatter());
     }
 
     private void customizingYAxis() {
