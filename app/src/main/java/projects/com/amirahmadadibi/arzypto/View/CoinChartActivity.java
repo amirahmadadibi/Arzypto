@@ -8,21 +8,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.imanx.State;
+import com.github.imanx.StateLayout;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,12 +32,10 @@ import projects.com.amirahmadadibi.arzypto.R;
 
 public class CoinChartActivity extends AppCompatActivity {
     LineChart lineChart;
-    SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
     List<Entry> chartEntry = new ArrayList<>();
     Typeface typeFace;
-    ArrayList<String> days = new ArrayList<>();
     CoinChartPresenter coinChartPresenter;
-    ProgressBar pb_downloading_data;
+    StateLayout stateLayout;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -49,15 +45,14 @@ public class CoinChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_chart);
+        setContentView(R.layout.activity_coin_chart);
         coinChartPresenter = new CoinChartPresenter(this,CoinChartActivity.this);
-        pb_downloading_data = findViewById(R.id.pb_downloading_data);
-
-        lineChart = findViewById(R.id.chart);
-        typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/IRANYekanMobileMedium.ttf");
+        initComponents();
+        stateLayout.setState(State.Loading);
         chartInit();
-
-        showDayValuesOfCoinAsStarting();
+        showDayValuesOfCoinAsStartingPoint();
+        stateLayout.setState(State.Normal);
+        lineChart.invalidate();
         TextView txt_one_month = findViewById(R.id.txt_one_month);
         txt_one_month.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +79,14 @@ public class CoinChartActivity extends AppCompatActivity {
 
     }
 
-    private void showDayValuesOfCoinAsStarting() {
+    private void initComponents() {
+        stateLayout = findViewById(R.id.state_layout_crypto_chart);
+        lineChart = findViewById(R.id.chart);
+        typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/IRANYekanMobileMedium.ttf");
+
+    }
+
+    private void showDayValuesOfCoinAsStartingPoint() {
         //select 1 day interval as default showing sduation
         coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_HOUR,24);
         setDataValuesForChart();
@@ -97,12 +99,6 @@ public class CoinChartActivity extends AppCompatActivity {
         lineChart.setDrawGridBackground(false);//draw recangle with solid background color
         lineChart.getXAxis().setDrawAxisLine(false);
         lineChart.setDrawBorders(false);
-//        lineChart.getAxisLeft().setDrawGridLines(false);
-//        lineChart.getXAxis().setDrawGridLines(false);
-//        lineChart.getAxisRight().setEnabled(false);
-//        lineChart.getAxisLeft().setEnabled(false);
-//        lineChart.isScaleXEnabled();
-//        lineChart.isScaleYEnabled();
         //make chart full width
         lineChart.setViewPortOffsets(0f, 20f, 0f, 20f);
         customizingXAxis();
@@ -160,7 +156,6 @@ public class CoinChartActivity extends AppCompatActivity {
     public void reFreshChart(){
         setDataValuesForChart();
         lineChart.notifyDataSetChanged();
-        lineChart.invalidate(); // refresh
     }
     
     public void errorInFetchingData(){
@@ -177,12 +172,10 @@ public class CoinChartActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(isWating){
-                    pb_downloading_data.setVisibility(View.VISIBLE);
-                    lineChart.setVisibility(View.INVISIBLE);
+                    stateLayout.setState(State.Loading);
                 }else{
-                    pb_downloading_data.setVisibility(View.INVISIBLE);
-                    lineChart.setVisibility(View.VISIBLE);
-                    lineChart.animateY(1000,Easing.EaseInSine);
+                    lineChart.invalidate();
+                    stateLayout.setState(State.Normal);
                 }
             }
         });

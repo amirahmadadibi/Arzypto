@@ -7,6 +7,7 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".View.CoinListActivity">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
         android:layout_width="0dp"
