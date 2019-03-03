@@ -8,7 +8,7 @@ public class Coin {
     private Double priceInToman;
     private int coinResourceFileId;
     private boolean priceRaiseFlag;
-
+    private Double priceGrowthPersentageInPastWeek;
     public Coin(String idName, Double price, boolean priceRaiseFlag, String coinSymbol, String farsiName, int coinResourceFileId, Double priceInToman) {
         this.idName = idName;
         this.price = price;
@@ -71,5 +71,13 @@ public class Coin {
     }
     public void setPriceInToman(Double priceInToman) {
         this.priceInToman = priceInToman;
+    }
+
+    public Double getPriceGrowthPersentageInPastWeek() {
+        return priceGrowthPersentageInPastWeek;
+    }
+
+    public void setPriceGrowthPersentageInPastWeek(Double priceGrowthPersentageInPastWeek) {
+        this.priceGrowthPersentageInPastWeek = priceGrowthPersentageInPastWeek;
     }
 }

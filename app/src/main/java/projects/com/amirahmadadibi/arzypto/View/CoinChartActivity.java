@@ -52,6 +52,7 @@ public class CoinChartActivity extends AppCompatActivity {
         Intent intent = getIntent();
         coinID = intent.getStringExtra("coinID");
         coinChartPresenter = new CoinChartPresenter(this, CoinChartActivity.this);
+        coinChartPresenter.getChangePersentageInPastTwoWeeks(coinID,CoinChartPresenter.INFO_INTERVAL_WeekChangePersentage,7);
         initComponents();
         chartInit();
         showDayValuesOfCoinAsStartingPoint();
@@ -188,4 +189,6 @@ public class CoinChartActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
