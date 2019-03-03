@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".View.CoinChartActivity">
+
+        </activity>
+        <activity android:name=".View.SplashActiviy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -29,10 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.SplashActiviy">
+        <activity android:name=".View.CoinListActivity">
 
-        </activity>
-        <activity android:name=".View.CoinListActivity"></activity> <!-- puse boradcast receiver -->
+        </activity> <!-- puse boradcast receiver -->
         <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />

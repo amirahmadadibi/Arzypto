@@ -30,11 +30,11 @@ public class CoinChartPresenter {
         this.coinChartActivity = coinChartActivity;
     }
 
-    public void getChartInfoWithInterval(String interval, final int unitQuantityOfInterval) {
+    public void getChartInfoWithInterval(final String coinID, final String interval, final int unitQuantityOfInterval) {
         chartEntry.clear();
         coinChartActivity.watingForDownloading(true);
         Request request = new Request.Builder()
-                .url("https://api.coincap.io/v2/assets/bitcoin/history?interval=" + interval)
+                .url("https://api.coincap.io/v2/assets/"+coinID+"/history?interval=" + interval)
                 .header("X-CMC_PRO_API_KEY", "5d10358e-e718-4f8b-a973-dab7d737e035")
                 .build();
         new OkhttpGetCall(request).sendGetRequest(new OkhttpGetCall.responseImp() {

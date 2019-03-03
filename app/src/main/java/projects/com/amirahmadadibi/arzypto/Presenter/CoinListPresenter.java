@@ -84,7 +84,7 @@ public class CoinListPresenter {
                 Iterator<Coin> coinIterator = coinList.iterator();
                 while (coinIterator.hasNext()) {
                     Coin c = coinIterator.next();
-                    if (c.getName().equals(coinName)) {
+                    if (c.getIdName().equals(coinName)) {
                         if (c.getPrice() > Double.valueOf(coinLastprice)) {
                             c.setPriceRaiseFlag(false);
                         } else {

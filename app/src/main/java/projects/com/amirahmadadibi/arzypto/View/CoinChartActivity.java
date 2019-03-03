@@ -1,12 +1,14 @@
 package projects.com.amirahmadadibi.arzypto.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class CoinChartActivity extends AppCompatActivity {
     Typeface typeFace;
     CoinChartPresenter coinChartPresenter;
     StateLayout stateLayout;
+    String coinID = "";
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -46,18 +49,17 @@ public class CoinChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_chart);
-        coinChartPresenter = new CoinChartPresenter(this,CoinChartActivity.this);
+        Intent intent = getIntent();
+        coinID = intent.getStringExtra("coinID");
+        coinChartPresenter = new CoinChartPresenter(this, CoinChartActivity.this);
         initComponents();
-        stateLayout.setState(State.Loading);
         chartInit();
         showDayValuesOfCoinAsStartingPoint();
-        stateLayout.setState(State.Normal);
-        lineChart.invalidate();
         TextView txt_one_month = findViewById(R.id.txt_one_month);
         txt_one_month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_Day,30);
+                coinChartPresenter.getChartInfoWithInterval(coinID, CoinChartPresenter.INFO_INTERVAL_Day, 30);
             }
         });
 
@@ -65,7 +67,7 @@ public class CoinChartActivity extends AppCompatActivity {
         txt_one_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_HOUR,24);
+                coinChartPresenter.getChartInfoWithInterval(coinID, CoinChartPresenter.INFO_INTERVAL_HOUR, 24);
             }
         });
 
@@ -73,7 +75,7 @@ public class CoinChartActivity extends AppCompatActivity {
         txt_one_week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_Day,7);
+                coinChartPresenter.getChartInfoWithInterval(coinID, CoinChartPresenter.INFO_INTERVAL_Day, 7);
             }
         });
 
@@ -88,7 +90,7 @@ public class CoinChartActivity extends AppCompatActivity {
 
     private void showDayValuesOfCoinAsStartingPoint() {
         //select 1 day interval as default showing sduation
-        coinChartPresenter.getChartInfoWithInterval(coinChartPresenter.INFO_INTERVAL_HOUR,24);
+        coinChartPresenter.getChartInfoWithInterval(coinID, coinChartPresenter.INFO_INTERVAL_HOUR, 24);
         setDataValuesForChart();
     }
 
@@ -152,33 +154,38 @@ public class CoinChartActivity extends AppCompatActivity {
     }
 
 
-
-    public void reFreshChart(){
+    public void reFreshChart() {
         setDataValuesForChart();
         lineChart.notifyDataSetChanged();
     }
-    
-    public void errorInFetchingData(){
-        Toast.makeText(this, "عدم توانایی در برقراری ارتباط ...", Toast.LENGTH_SHORT).show();
+
+    public void errorInFetchingData() {
+        //Toast.makeText(this, "عدم توانایی در برقراری ارتباط ...", Toast.LENGTH_SHORT).show();
+        Log.d("fail", "errorInFetchingData: ");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stateLayout.setState(State.Failure);
+            }
+        });
     }
 
-    public void onGettingNewData(List<Entry> chartEntry){
+    public void onGettingNewData(List<Entry> chartEntry) {
         this.chartEntry = chartEntry;
         reFreshChart();
     }
 
-    public void watingForDownloading(final boolean isWating){
+    public void watingForDownloading(final boolean isWating) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(isWating){
+                if (isWating) {
                     stateLayout.setState(State.Loading);
-                }else{
+                } else {
                     lineChart.invalidate();
                     stateLayout.setState(State.Normal);
                 }
             }
         });
-
     }
 }

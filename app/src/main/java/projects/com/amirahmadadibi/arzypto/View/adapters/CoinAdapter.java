@@ -1,14 +1,17 @@
 package projects.com.amirahmadadibi.arzypto.View.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import projects.com.amirahmadadibi.arzypto.Model.Coin;
 import projects.com.amirahmadadibi.arzypto.R;
+import projects.com.amirahmadadibi.arzypto.View.CoinChartActivity;
 
 public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
@@ -40,6 +44,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        viewHolder.setOnClickListener();
         viewHolder.coinName.setText(coins.get(i).getFarsiName());//تتر
         viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());//USDT
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());//coin logo
@@ -47,7 +52,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         if (String.valueOf(coins.get(i).getPrice()).equals("0.0")) {
             switchFromLoadToShow(false, viewHolder);
         } else {
-            switchFromLoadToShow(true,viewHolder);
+            switchFromLoadToShow(true, viewHolder);
             if (coins.get(i).getPrice() < 1.00) {
                 //shows until six decimal digits for some coin's and format them using dollarFormatter
                 viewHolder.coinPriceInDollar.setText("$ " + String.format("%.6f", coins.get(i).getPrice()));
@@ -90,7 +95,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         return coins.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView coinName;
         TextView coinPriceInDollar;
         TextView coinSymbol;
@@ -98,7 +103,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         TextView coinLoadData;
         ImageView ivCoinThumbnail;
         ImageView ivCoinPriceStatus;
-
+        CardView itemCardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
@@ -108,8 +113,28 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             coinPriceInToman = itemView.findViewById(R.id.txt_coin_price_in_toman);
             ivCoinThumbnail = itemView.findViewById(R.id.iv_coin_thumnail);
             ivCoinPriceStatus = itemView.findViewById(R.id.iv_icon_price_status);
+            itemCardView = itemView.findViewById(R.id.coin_item_card);
             Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/DHannaThin.ttf");
             coinPriceInDollar.setTypeface(typeFace);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
+            switch (v.getId()){
+                case R.id.coin_item_card:
+                    Intent intent = new Intent(context, CoinChartActivity.class);
+                    intent.putExtra("coinID",coins.get(getAdapterPosition()).getIdName());
+                    context.startActivity(intent);
+                    break;
+                    default:
+                        Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+        public void setOnClickListener(){
+            itemCardView.setOnClickListener(ViewHolder.this);
         }
     }
 
@@ -121,7 +146,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
             viewHolder.coinPriceInToman.setVisibility(View.VISIBLE);
         } else {
             viewHolder.coinLoadData.setVisibility(View.VISIBLE);
-            viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
+            viewHolder.coinPriceInDollar.setVisibility(View.INVISIBLE);
             viewHolder.ivCoinPriceStatus.setVisibility(View.INVISIBLE);
             viewHolder.coinPriceInToman.setVisibility(View.INVISIBLE);
         }

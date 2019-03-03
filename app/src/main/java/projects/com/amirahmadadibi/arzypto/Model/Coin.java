@@ -1,19 +1,16 @@
 package projects.com.amirahmadadibi.arzypto.Model;
 
 public class Coin {
-    private String name;
+    private String idName;
     private String coinSymbol;
     private String farsiName;
     private Double price;
     private Double priceInToman;
     private int coinResourceFileId;
     private boolean priceRaiseFlag;
-    private double marketCapUsd;
-    private double volumeUsd24Hr;
-    private double changePercent24Hr;
 
-    public Coin(String name, Double price, boolean priceRaiseFlag, String coinSymbol, String farsiName, int coinResourceFileId, Double priceInToman) {
-        this.name = name;
+    public Coin(String idName, Double price, boolean priceRaiseFlag, String coinSymbol, String farsiName, int coinResourceFileId, Double priceInToman) {
+        this.idName = idName;
         this.price = price;
         this.priceRaiseFlag = priceRaiseFlag;
         this.coinSymbol = coinSymbol;
@@ -22,12 +19,12 @@ public class Coin {
         this.priceInToman = priceInToman;
     }
 
-    public String getName() {
-        return name;
+    public String getIdName() {
+        return idName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIdName(String idName) {
+        this.idName = idName;
     }
 
     public Double getPrice() {
@@ -69,36 +66,10 @@ public class Coin {
     public void setCoinResourceFileId(int coinResourceFileId) {
         this.coinResourceFileId = coinResourceFileId;
     }
-
     public Double getPriceInToman() {
         return priceInToman;
     }
-
     public void setPriceInToman(Double priceInToman) {
         this.priceInToman = priceInToman;
-    }
-
-    public double getMarketCapUsd() {
-        return marketCapUsd;
-    }
-
-    public void setMarketCapUsd(double marketCapUsd) {
-        this.marketCapUsd = marketCapUsd;
-    }
-
-    public double getVolumeUsd24Hr() {
-        return volumeUsd24Hr;
-    }
-
-    public void setVolumeUsd24Hr(double volumeUsd24Hr) {
-        this.volumeUsd24Hr = volumeUsd24Hr;
-    }
-
-    public double getChangePercent24Hr() {
-        return changePercent24Hr;
-    }
-
-    public void setChangePercent24Hr(double changePercent24Hr) {
-        this.changePercent24Hr = changePercent24Hr;
     }
 }
