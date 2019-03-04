@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,18 +89,18 @@ public class CoinChartPresenter {
                 Double thisWeekPrice = 0.0;
                 boolean decreseChange = false;
                 JSONArray jsonPricesArray = new JSONObject(response).getJSONArray("data");
-                ///interval past for example this with INFO_INTERVAL_MonthChangePersentage
+                ///interval past for example this with INFO_INTERVAL_MonthChange Percentage
                 int size = (jsonPricesArray.length() - pastInterval);
 
                 for (int i = size; i < jsonPricesArray.length() - nowInterval; i++) {
                     JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    paswWeekPrice += Double.valueOf(jsonPriceForSingleDay.getString("priceUsd"));
+                    paswWeekPrice = paswWeekPrice + Double.valueOf(jsonPriceForSingleDay.getString("priceUsd"));
                 }
                 ///interval now for example this with INFO_INTERVAL_Day
                 size = (jsonPricesArray.length() - nowInterval);
                 for (int i = size; i < jsonPricesArray.length(); i++) {
                     JSONObject jsonPriceForSingleDay = jsonPricesArray.getJSONObject(i);
-                    thisWeekPrice += Double.valueOf(jsonPriceForSingleDay.getString("priceUsd"));
+                    thisWeekPrice = thisWeekPrice + Double.valueOf(jsonPriceForSingleDay.getString("priceUsd"));
                 }
                 if (thisWeekPrice < paswWeekPrice) {
                     decreseChange = true;
