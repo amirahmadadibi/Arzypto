@@ -1,4 +1,4 @@
-package projects.com.amirahmadadibi.arzypto.Model;
+package projects.com.amirahmadadibi.arzypto.model;
 
 public class CoinPrice {
     Coin coin;

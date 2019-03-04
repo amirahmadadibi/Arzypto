@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-import projects.com.amirahmadadibi.arzypto.Model.Coin;
+import projects.com.amirahmadadibi.arzypto.model.Coin;
 import projects.com.amirahmadadibi.arzypto.Network.OkhttpPostCall;
 import projects.com.amirahmadadibi.arzypto.Network.OkHttpSocketClient;
 import projects.com.amirahmadadibi.arzypto.R;
@@ -181,7 +181,7 @@ public class CoinListPresenter {
         //initialize tether coin because it's very stable and we need show 1 dollar price before any changes
         coinList.get(3).setPrice(1.0);
         coinList.get(3).setPriceInToman(1.0 * dollerPrice);
-        coinListActivity.setupCoinListAdatper(coinList);
+        coinListActivity.setupCoinListAdatper(coinList,coinListActivity);
     }
 
 }

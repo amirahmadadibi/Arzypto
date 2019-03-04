@@ -2,6 +2,7 @@ package projects.com.amirahmadadibi.arzypto.View.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -19,19 +20,23 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import projects.com.amirahmadadibi.arzypto.Model.Coin;
+import projects.com.amirahmadadibi.arzypto.model.Coin;
 import projects.com.amirahmadadibi.arzypto.R;
 import projects.com.amirahmadadibi.arzypto.View.CoinChartActivity;
+import projects.com.amirahmadadibi.arzypto.View.CoinListActivity;
+import projects.com.amirahmadadibi.arzypto.databinding.ItemListBinding;
 
 public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
     List<Coin> coins;
     Context context;
     DecimalFormat formatter = new DecimalFormat("#,###,###");
+    ItemListBinding itemListBinding;
 
-    public CoinAdapter(List<Coin> coins, Context context) {
+    public CoinAdapter(List<Coin> coins, Context context, CoinListActivity coinListActivity) {
         this.coins = coins;
         this.context = context;
+        itemListBinding = DataBindingUtil.setContentView(coinListActivity, R.layout.item_list);
     }
 
     @NonNull
@@ -45,7 +50,9 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.setOnClickListener();
-        viewHolder.coinName.setText(coins.get(i).getFarsiName());//تتر
+        Coin coin = coins.get(i);
+        itemListBinding.setCoin(coin);
+//        viewHolder.coinName.setText(coins.get(i).getFarsiName());//تتر
         viewHolder.coinSymbol.setText(coins.get(i).getCoinSymbol());//USDT
         viewHolder.ivCoinThumbnail.setImageResource(coins.get(i).getCoinResourceFileId());//coin logo
         //if we have not receive any data yet
@@ -104,6 +111,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
         ImageView ivCoinThumbnail;
         ImageView ivCoinPriceStatus;
         CardView itemCardView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coinName = itemView.findViewById(R.id.txt_coin_name);
@@ -120,20 +128,21 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
+            itemListBinding = DataBindingUtil.bind(v);
             Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.coin_item_card:
                     Intent intent = new Intent(context, CoinChartActivity.class);
-                    intent.putExtra("coinID",coins.get(getAdapterPosition()).getIdName());
+                    intent.putExtra("coinID", coins.get(getAdapterPosition()).getIdName());
                     context.startActivity(intent);
                     break;
-                    default:
-                        Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
+                default:
+                    Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
 
             }
         }
 
-        public void setOnClickListener(){
+        public void setOnClickListener() {
             itemCardView.setOnClickListener(ViewHolder.this);
         }
     }

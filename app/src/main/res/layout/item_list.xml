@@ -1,117 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_marginBottom="10dp">
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/coin_item_card"
+<layout >
+    <data>
+        <variable
+            name="coin"
+            type="projects.com.amirahmadadibi.arzypto.model.Coin"/>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="0dp">
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/coin_item_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="0dp">
 
-            <ImageView
-                android:id="@+id/iv_coin_thumnail"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/btc"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.552" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/txt_coin_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Coin Name"
-                android:textColor="@color/colorTextLight"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_coin_symbol"
-                app:layout_constraintEnd_toStartOf="@+id/iv_coin_thumnail"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/iv_coin_thumnail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@{coin.coinResourceFileId}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.552" />
 
-            <TextView
-                android:id="@+id/tv_coin_symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="CoinSymbol"
-                android:textColor="@color/colorGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/iv_coin_thumnail"
-                app:layout_constraintTop_toBottomOf="@+id/txt_coin_name" />
+                <TextView
+                    android:id="@+id/txt_coin_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@{coin.farsiName}"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_coin_symbol"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_coin_thumnail"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_coin_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="19dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{coin.coinSymbol}"
+                    android:textColor="@color/colorGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_coin_thumnail"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_coin_name" />
 
 
-            <ImageView
-                android:id="@+id/iv_icon_price_status"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_coin_price"
-                app:layout_constraintStart_toEndOf="@+id/txt_coin_price"
-                app:layout_constraintTop_toTopOf="@+id/txt_coin_price"
-                app:layout_constraintVertical_bias="1.0" />
+                <ImageView
+                    android:id="@+id/iv_icon_price_status"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_coin_price"
+                    app:layout_constraintStart_toEndOf="@+id/txt_coin_price"
+                    app:layout_constraintTop_toTopOf="@+id/txt_coin_price"
+                    app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/txt_coin_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="$21.3565"
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_coin_price_in_toman" />
+                <TextView
+                    android:id="@+id/txt_coin_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@{Double.toString(coin.price)}"
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_coin_price_in_toman" />
 
-            <TextView
-                android:id="@+id/txt_load_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="دریافت آخرین قیمت ..."
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/txt_load_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="دریافت آخرین قیمت ..."
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/txt_coin_price_in_toman"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="1.253.125"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/txt_coin_price"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/txt_coin_price_in_toman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@{Double.toString(coin.priceInToman)}"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_coin_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="spread" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
